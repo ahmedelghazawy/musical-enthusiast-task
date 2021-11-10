@@ -1,5 +1,3 @@
-from services import *
-
 
 class Artist:
     def __init__(self, name, artist_id="", artist_type="", country="", songs=[]):
@@ -22,7 +20,6 @@ class Song:
     def __init__(self, name, lyrics, word_count=0):
         self.name = name
         self.lyrics = lyrics
-        # self.word_count = LyricsService.count_lyrics(self.lyrics)
         self.word_count = word_count
 
     def print_song(self):

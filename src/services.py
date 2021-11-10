@@ -1,6 +1,7 @@
 import json
 import requests
 from models import *
+from helper_functions import *
 
 import musicbrainzngs as mb
 
@@ -21,7 +22,8 @@ class ArtistService:
         works = mb.search_works(arid=self.artist.id, limit=300)
         song_list = []
         for song in works['works']:
-            song_list.append(song['title'])
+            current_song = Song(song['title'], "", 0)
+            song_list.append(current_song)
         return song_list
 
 
@@ -31,12 +33,14 @@ class SongService:
         self.base_url = "https://api.lyrics.ovh/v1/"
         self.song = song
 
-    def get_song_lyrics(self, artist, song_name):
-        request_url = self.base_url + artist.name + song_name
+    def get_song_lyrics(self, artist):
+        request_url = self.base_url + artist.name + "/" + self.song.name
         try:
             response = requests.get(request_url)
             if response.status_code == 200:
-                song = Song(song_name, response.body['lyrics'], 0)
+                lyrics = cleanup_lyrics(response.content)
+                self.song.lyrics = lyrics
+                return self.song
             else:
                 return
         except requests.exceptions.Timeout:
