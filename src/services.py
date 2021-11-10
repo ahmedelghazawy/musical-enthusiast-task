@@ -19,11 +19,12 @@ class ArtistService:
         return result['artists'][0]
 
     def get_songs(self):
-        works = mb.search_works(arid=self.artist.id, limit=300)
         song_list = []
-        for song in works['works']:
-            current_song = Song(song['title'], "", 0)
-            song_list.append(current_song)
+        for offset in range(0, 1000, 100):
+            works = mb.search_works(arid=self.artist.id, limit=100, offset=offset)
+            for song in works['works']:
+                current_song = Song(song['title'], "", 0)
+                song_list.append(current_song)
         return song_list
 
 
@@ -38,11 +39,11 @@ class SongService:
         try:
             response = requests.get(request_url)
             if response.status_code == 200:
-                lyrics = cleanup_lyrics(response.content)
+                lyrics = cleanup_lyrics(response.content, self.song.name)
                 self.song.lyrics = lyrics
                 return self.song
             else:
-                return
+                return self.song
         except requests.exceptions.Timeout:
             return
 
