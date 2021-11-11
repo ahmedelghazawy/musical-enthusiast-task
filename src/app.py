@@ -1,10 +1,12 @@
-from services import *
-from helper_functions import *
 import argparse
 import warnings
 
+from services import *
+
+# Suppressing warnings given by the libraries used
 warnings.filterwarnings("ignore")
 
+# Adding command line arguments
 parser = argparse.ArgumentParser(description="A program that counts average words in songs by artists.")
 parser.add_argument('-f', '--file', required=False, action="store_true", dest="file",
                     help="Generates a CSV file containing number of words in each song by artist.")
@@ -18,6 +20,8 @@ if __name__ == '__main__':
     print("Thanks, please hang tight while we find this artist.\n")
     artist_service = ArtistService(artist)
     artist = artist_service.get_artist()
+
+    # In case wrong artist name was given, or artist couldn't be found
     if artist == None:
         print("Artist not found, please try again")
         exit(0)

@@ -1,8 +1,8 @@
-import requests
-from models import *
-from helper_functions import *
-
 import musicbrainzngs as mb
+import requests
+
+from helper_functions import *
+from models import *
 
 
 class ArtistService:
@@ -14,7 +14,6 @@ class ArtistService:
 
     def get_artist(self):
         result = mb.search_artists(artist=self.artist.name, limit="1")
-        # artist = Artist()
         if len(result['artists']) == 0:
             return
         else:

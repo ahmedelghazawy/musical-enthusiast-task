@@ -1,11 +1,14 @@
+import csv
 import json
 import re
-import csv
+
 
 def cleanup_lyrics(raw_lyrics, artist_name, song_name):
+    # Most lyrics contain this French header, so it's being removed
     phrase_to_remove = "paroles de la chanson " + song_name.lower() + " par " + artist_name.lower()
     pattern = '[^a-z\']|[\s+]'
 
+    # Lyrics are sent as a byte string, so the encoding and formatting and being changed to extract the lyrics
     decoded_lyrics = raw_lyrics.decode('utf8')
     json_lyrics = json.loads(decoded_lyrics)
     clean_lyrics = json_lyrics['lyrics'].lower()
