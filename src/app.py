@@ -57,4 +57,4 @@ if __name__ == '__main__':
 
     if args.file:
         print("Writing data into file.\n")
-        generate_song_csv(artist.songs)
+        generate_song_csv(artist)

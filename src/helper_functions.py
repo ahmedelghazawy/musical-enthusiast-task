@@ -44,17 +44,17 @@ def lyrics_counter(song_list):
     return int(average_words)
 
 
-def generate_song_csv(song_list):
-    if len(song_list) == 0:
+def generate_song_csv(artist):
+    if len(artist.songs) == 0:
         return 0
 
     words_in_songs = {}
-    for song in song_list:
+    for song in artist.songs:
         number_of_words = len(song.lyrics.split(" "))
         words_in_songs[song.name] = number_of_words
 
     song_names = words_in_songs.keys()
-    with open("../words_in_songs.txt", 'w', newline='') as csv_file:
+    with open("../words_in_songs_by_" + artist.name.replace(" ", "_") + ".txt", 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
         writer.writerow(["Song name", "Words"])
 
