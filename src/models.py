@@ -11,7 +11,7 @@ class Artist:
         artist = "This artist is called " + self.name + \
             ", they are a " + self.artist_type.lower() + \
             ", they are from " + self.country + \
-            ", and have made " + str(len(self.songs)) + " songs"
+            ", and have made " + str(len(self.songs)) + " songs\n"
         print(artist)
 
 
