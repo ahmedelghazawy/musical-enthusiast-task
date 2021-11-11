@@ -45,4 +45,7 @@ if __name__ == '__main__':
 
     average_words = lyrics_counter(artist.songs)
 
-    print("Average number of words per song: " + str(average_words) + ".")
+    print("Average number of words per song: " + str(average_words) + ".\n")
+
+    print("Writing data into file.\n")
+    generate_song_csv(artist.songs)

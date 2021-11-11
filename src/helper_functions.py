@@ -1,6 +1,6 @@
 import json
 import re
-
+import csv
 
 def cleanup_lyrics(raw_lyrics, artist_name, song_name):
     phrase_to_remove = "paroles de la chanson " + song_name.lower() + " par " + artist_name.lower()
@@ -39,3 +39,21 @@ def lyrics_counter(song_list):
     average_words = (total_words / len(song_list)) + 0.5
 
     return int(average_words)
+
+
+def generate_song_csv(song_list):
+    if len(song_list) == 0:
+        return 0
+
+    words_in_songs = {}
+    for song in song_list:
+        number_of_words = len(song.lyrics.split(" "))
+        words_in_songs[song.name] = number_of_words
+
+    song_names = words_in_songs.keys()
+    with open("../words_in_songs.txt", 'w', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        writer.writerow(["Song name", "Words"])
+
+        for song in song_names:
+            writer.writerow([song, words_in_songs[song]])
