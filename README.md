@@ -78,5 +78,8 @@ some song names might be written in emojis or unreadable characters, so the song
 
 1. A local database to include data from previous queries, hence reducing the 
 number of requests over the API.
-2. Linking artists' data with the ones falling under different artists' data
+2. Creating a django/flask server to communicate with the different APIs, and cross-check the missing data across
+more APIs to fill the gaps. This server would also utilise the aforementioned database,
+and would contain some caching features/algorithms. 
+3. Linking artists' data with the ones falling under different artists' data
 (e.g: after group breaking up, different stage name, features, etc.).
