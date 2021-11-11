@@ -1,4 +1,3 @@
-import json
 import requests
 from models import *
 from helper_functions import *
@@ -16,7 +15,10 @@ class ArtistService:
     def get_artist(self):
         result = mb.search_artists(artist=self.artist.name, limit="1")
         # artist = Artist()
-        return result['artists'][0]
+        if len(result['artists']) == 0:
+            return
+        else:
+            return result['artists'][0]
 
     def get_songs(self):
         song_list = []
@@ -25,6 +27,9 @@ class ArtistService:
             for song in works['works']:
                 current_song = Song(song['title'], "", 0)
                 song_list.append(current_song)
+            if works['count'] < 100:
+                return song_list
+
         return song_list
 
 
@@ -55,4 +60,3 @@ class SongService:
 
     def count_lyrics(self):
         pass
-
