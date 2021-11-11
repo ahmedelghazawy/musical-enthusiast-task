@@ -39,7 +39,7 @@ class SongService:
         try:
             response = requests.get(request_url)
             if response.status_code == 200:
-                lyrics = cleanup_lyrics(response.content, self.song.name)
+                lyrics = cleanup_lyrics(response.content, artist.name, self.song.name)
                 self.song.lyrics = lyrics
                 return self.song
             else:

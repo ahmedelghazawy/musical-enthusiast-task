@@ -1,5 +1,6 @@
 from models import *
 from services import *
+from helper_functions import lyrics_counter
 import sys
 
 artist_name = ""
@@ -29,9 +30,16 @@ if "country" in keys:
 artist = Artist(artist_name, artist_id, artist_type, artist_country)
 artist_service.artist = artist
 
-# for artist in artist_list:
 artist.songs = artist_service.get_songs()
 artist.print_artist()
-print("Names of songs by this artist\n")
-for song in artist.songs:
-    print(song)
+
+
+for i in range(len(artist.songs)):
+    song_service = SongService(artist.songs[i])
+    current_song = song_service.get_song_lyrics(artist)
+    artist.songs[i] = current_song
+
+average_words,average_distinct_words = lyrics_counter(artist.songs)
+
+print("Average number of words per song: " + str(average_words))
+print("Average distinct words per song: " + str(average_distinct_words))

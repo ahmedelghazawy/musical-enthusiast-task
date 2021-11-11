@@ -20,9 +20,7 @@ class Song:
     def __init__(self, name, lyrics, word_count=0):
         self.name = name
         self.lyrics = lyrics
-        self.word_count = word_count
 
     def print_song(self):
         print("Song name: " + self.name)
-        print("Number of words in song: " + str(self.word_count))
         print("Song lyrics: \n" + self.lyrics)
