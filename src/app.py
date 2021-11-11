@@ -1,45 +1,48 @@
 from models import *
 from services import *
 from helper_functions import lyrics_counter
-import sys
 
-artist_name = ""
-if len(sys.argv) > 1:
-    artist_name = sys.argv[1]
-else:
+import warnings
+
+warnings.filterwarnings("ignore")
+
+if __name__ == '__main__':
+
     artist_name = input("Please insert artist name\n")
-artist = Artist(artist_name)
+    artist = Artist(artist_name)
 
-artist_service = ArtistService(artist)
-artist = artist_service.get_artist()
+    print("Thanks, please hang tight while we find this artist.\n")
+    artist_service = ArtistService(artist)
+    artist = artist_service.get_artist()
+    if artist == None:
+        print("Artist not found, please try again")
+        exit(0)
+    else:
+        print("Great news! We found the artist, one moment while we gather their information.\n")
 
-# for artist in query_result:
-#     print(artist)
-#     print()
+    artist_id = artist_name = artist_type = artist_country = ""
+    keys = artist.keys()
+    if "id" in keys:
+        artist_id = artist['id']
+    if "name" in keys:
+        artist_name = artist['name']
+    if "type" in keys:
+        artist_type = artist['type']
+    if "country" in keys:
+        artist_country = artist['country']
+    artist = Artist(artist_name, artist_id, artist_type, artist_country)
+    artist_service.artist = artist
 
-artist_id = artist_name = artist_type = artist_country = ""
-keys = artist.keys()
-if "id" in keys:
-    artist_id = artist['id']
-if "name" in keys:
-    artist_name = artist['name']
-if "type" in keys:
-    artist_type = artist['type']
-if "country" in keys:
-    artist_country = artist['country']
-artist = Artist(artist_name, artist_id, artist_type, artist_country)
-artist_service.artist = artist
+    print("Counting their songs.\n")
+    artist.songs = artist_service.get_songs()
+    artist.print_artist()
 
-artist.songs = artist_service.get_songs()
-artist.print_artist()
+    print("Counting words in songs' lyrics.\n")
+    for i in range(len(artist.songs)):
+        song_service = SongService(artist.songs[i])
+        current_song = song_service.get_song_lyrics(artist)
+        artist.songs[i] = current_song
 
+    average_words = lyrics_counter(artist.songs)
 
-for i in range(len(artist.songs)):
-    song_service = SongService(artist.songs[i])
-    current_song = song_service.get_song_lyrics(artist)
-    artist.songs[i] = current_song
-
-average_words,average_distinct_words = lyrics_counter(artist.songs)
-
-print("Average number of words per song: " + str(average_words))
-print("Average distinct words per song: " + str(average_distinct_words))
+    print("Average number of words per song: " + str(average_words) + ".")
