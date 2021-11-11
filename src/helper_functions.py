@@ -1,9 +1,9 @@
-import json, re
+import json
+import re
 
 
 def cleanup_lyrics(raw_lyrics, artist_name, song_name):
-
-    phrase_to_remove = "paroles de la chanson " + song_name.lower() +" par " + artist_name.lower()
+    phrase_to_remove = "paroles de la chanson " + song_name.lower() + " par " + artist_name.lower()
     pattern = '[^a-z\']|[\s+]'
 
     decoded_lyrics = raw_lyrics.decode('utf8')
@@ -19,6 +19,8 @@ def cleanup_lyrics(raw_lyrics, artist_name, song_name):
 
 
 def lyrics_counter(song_list):
+    if len(song_list) == 0:
+        return 0
 
     words_in_lyrics = {}
 
@@ -29,13 +31,11 @@ def lyrics_counter(song_list):
             else:
                 words_in_lyrics[word] = 1
 
-    total_distinct_words = len(words_in_lyrics.keys())
     total_words = 0
 
     for word in words_in_lyrics.keys():
         total_words += words_in_lyrics[word]
 
     average_words = (total_words / len(song_list)) + 0.5
-    average_distinct_words = (total_distinct_words / len(song_list)) + 0.5
 
-    return int(average_words),int(average_distinct_words)
+    return int(average_words)
