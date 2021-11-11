@@ -1,10 +1,14 @@
-from models import *
 from services import *
-from helper_functions import lyrics_counter
-
+from helper_functions import *
+import argparse
 import warnings
 
 warnings.filterwarnings("ignore")
+
+parser = argparse.ArgumentParser(description="A program that counts average words in songs by artists.")
+parser.add_argument('-f', '--file', required=False, action="store_true", dest="file",
+                    help="Generates a CSV file containing number of words in each song by artist.")
+args = parser.parse_args()
 
 if __name__ == '__main__':
 
@@ -47,5 +51,6 @@ if __name__ == '__main__':
 
     print("Average number of words per song: " + str(average_words) + ".\n")
 
-    print("Writing data into file.\n")
-    generate_song_csv(artist.songs)
+    if args.file:
+        print("Writing data into file.\n")
+        generate_song_csv(artist.songs)
